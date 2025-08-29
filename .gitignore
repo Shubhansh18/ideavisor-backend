@@ -1,3 +1,4 @@
 .env
 validateEnv/
 **/__pycache__
+data/

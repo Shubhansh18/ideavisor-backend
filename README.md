@@ -1,4 +1,4 @@
-# VentureAI - AI-Powered Startup Validation Platform
+# IdeaVisor - AI-Powered Startup Validation Platform
 
 A comprehensive startup validation platform that uses AI to analyze business ideas using proven frameworks like Lean Canvas, TAM-SAM-SOM, and Y Combinator criteria.
 
