@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from typing import Dict, Optional
 from fastapi import Form, UploadFile
@@ -10,7 +10,7 @@ class StartupIdea(BaseModel):
     customer: str = Field(..., min_length=10, max_length=500)
     problem: str = Field(..., min_length=10, max_length=1000)
     solution: str = Field(..., min_length=10, max_length=1000)
-    background: str = Field(..., min_length=10, max_length=5000)
+    background: str = Field(..., min_length=10)
     resume_file: Optional[UploadFile] = None
     
     @classmethod
@@ -54,10 +54,13 @@ class StartupIdea(BaseModel):
             resume_file=resume_file
         )
 
-    @validator('background')
-    def background_must_not_be_empty(cls, v):
+    @field_validator('background')
+    def background_validation(cls, v, values):
         if not v or len(v.strip()) < 10:
             raise ValueError('background must be at least 10 characters')
+        if 'resume_file' not in values.data or values.data['resume_file'] is None:
+            if len(v) > 5000:
+                raise ValueError('background must be less than 5000 characters if no resume is uploaded')
         return v
 
 class ValidationReport(BaseModel):
