@@ -29,7 +29,7 @@ class AIAnalysisService:
         """Analyze startup idea using AI models"""
         
         # The system prompt sets the persona, while the user prompt contains the detailed instructions and data.
-        system_prompt = """You are a senior startup analyst and venture capitalist with 20+ years of experience. Your analysis is brutally honest, data-driven, and avoids fluff. You are a world-class expert in evaluating new business ideas.
+        system_prompt = """You are a senior indian startup analyst and venture capitalist with 20+ years of experience. Your analysis is brutally honest, data-driven, and avoids fluff. You are a world-class expert in evaluating new business ideas.
         You will be given a startup idea submission and you must return your analysis ONLY in the requested JSON format."""
 
         user_prompt = self._create_analysis_prompt(startup_data)
@@ -81,9 +81,9 @@ Here is the startup idea submission I need you to analyze:
 
 Your task is to evaluate the submission based on the following two-step process:
 
-**Step 1: Evaluate Input Quality**
+**Step 1: Evaluate Input**
 First, assess the provided submission. 
-- If the input is detailed, coherent, and provides a solid basis for analysis, proceed to Step 2.
+- If the input is valid and provides significant idea that makes sense and is not just random words put together, proceed to Step 2.
 - If the input is too short, vague, contains placeholder text (e.g., "test", "asdf"), or is otherwise nonsensical, **DO NOT** perform the analysis. Instead, you MUST respond with the following JSON object:
 
 ```json
@@ -92,9 +92,10 @@ First, assess the provided submission.
     "message": "<Your user-friendly message asking for more specific and meaningful input. Explain what is missing or unclear and guide the user on how to improve their submission.>"
 }}
 ```
+- Do not ask user for competitor analysis, market size, growth rate or such matrices from user as you are responsible to provide that in your validation research.
 
 **Step 2: Perform In-Depth Validation Analysis**
-If the input quality is sufficient, you MUST provide a detailed, actionable, and brutally honest startup validation analysis. Your entire response must be a single JSON object, using the exact structure and keys shown in the template below. Fill in the values based on your expert analysis.
+If the input quality is sufficient, you MUST provide a detailed, actionable, and brutally honest startup validation analysis focused for indian startup ecosystem unless specified otherwise in target audience. Your entire response must be a single JSON object, using the exact structure and keys shown in the template below. Fill in the values based on your expert analysis.
 
 **JSON ANALYSIS TEMPLATE (FILL THIS OUT):**
 ```json
