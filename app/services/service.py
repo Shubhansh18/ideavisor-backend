@@ -36,7 +36,7 @@ class AIAnalysisService:
         
         try:
             response = self.client.chat.completions.create(
-                model="deepseek/deepseek-r1-0528-qwen3-8b:free",
+                model="arcee-ai/trinity-large-preview:free",
                 messages=[
                     {
                         "role": "system",

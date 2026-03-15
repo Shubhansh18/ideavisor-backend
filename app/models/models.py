@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, model_validator
 from datetime import datetime
 from typing import Dict, Optional
 from fastapi import Form, UploadFile
@@ -54,14 +54,18 @@ class StartupIdea(BaseModel):
             resume_file=resume_file
         )
 
-    @field_validator('background')
-    def background_validation(cls, v, values):
-        if not v or len(v.strip()) < 10:
+    @model_validator(mode="after")
+    def validate_background_dependencies(self) -> 'StartupIdea':
+        # self is now the fully populated model instance
+        if not self.background or len(self.background.strip()) < 10:
             raise ValueError('background must be at least 10 characters')
-        if 'resume_file' not in values.data or values.data['resume_file'] is None:
-            if len(v) > 5000:
+            
+        # We can now safely check self.resume_file
+        if self.resume_file is None:
+            if len(self.background) > 5000:
                 raise ValueError('background must be less than 5000 characters if no resume is uploaded')
-        return v
+                
+        return self
 
 class ValidationReport(BaseModel):
     id: str
